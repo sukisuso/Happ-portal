@@ -1,0 +1,20 @@
+{
+  "name": "Happ-portal",
+  "description": "Webportal for Happ clients",
+  "main": "app.js",
+  "authors": [
+    "Jesus Juan Aguilar <jesusjuanaguilar@gmail.com> (https://twitter.com/JesusJuAg)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/sukisuso/Happ-portal",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8"
+  }
+}

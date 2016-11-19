@@ -1,0 +1,27 @@
+{
+  "name": "Happ-portal",
+  "version": "1.0.0",
+  "description": "Webportal for Happ clients",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sukisuso/Happ-portal.git"
+  },
+  "author": "Jesus Juan Aguilar <jesusjuanaguilar@gmail.com> (https://twitter.com/JesusJuAg)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sukisuso/Happ-portal/issues"
+  },
+  "homepage": "https://github.com/sukisuso/Happ-portal",
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "consolidate": "0.14.5",
+    "ejs": "2.5.2",
+    "express": "4.14.0",
+    "helmet": "3.1.0",
+    "mustache": "2.3.0"
+  }
+}
