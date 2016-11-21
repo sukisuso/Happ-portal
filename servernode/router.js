@@ -3,9 +3,9 @@
  * Router 
  * Jesús Juan Aguilar 03/2016
  * */
-/*const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/happ");
-var log = require('./helpers/log');
+/*var log = require('./helpers/log');
  
 var login = require('./bo/LoginBo');
 var client = require('./bo/ClientBo');
@@ -13,6 +13,7 @@ var transactions = require('./bo/TransactionsBo');
 var agenda = require('./bo/AgendaBo');
 var documents = require('./bo/DocumentsBo');
 var pdf = require('./bo/PdfBo');*/
+var entity = require('./bo/EntityBo');
 
 function route(app) {
 	
@@ -21,6 +22,7 @@ function route(app) {
 		res.render('portal', {entity: req.params.entity});
 	});
 	
+	entity.startPaths(app, mongoose);
 	
 	/*client.startPaths(app, mongoose, log);
 	login.startPaths(app, mongoose, log);
