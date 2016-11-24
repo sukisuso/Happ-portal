@@ -22,6 +22,9 @@ function route(app) {
 		res.render('portal', {entity: req.params.entity});
 	});
 	
+	app.get('/portal/:entity/mensajes', function(req, res) {
+		res.render('mensajes', {entity: req.params.entity});
+	});
 	entity.startPaths(app, mongoose);
 	
 	/*client.startPaths(app, mongoose, log);

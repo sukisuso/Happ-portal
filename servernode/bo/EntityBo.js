@@ -9,16 +9,22 @@
 
 var Client = null;
 var Transaction = null;
+var Documents = null;
+var Mensajes = null;
 var ObjectId = null;
 
 function StartPaths(app, mongoose){
 	Client = require('../models/Client')(mongoose);
 	Transaction = require ('../models/Transactions')(mongoose);
+	Documents = require ('../models/Document')(mongoose);
+	Mensajes = require ('../models/Mensajes')(mongoose);
 	ObjectId = mongoose.Types.ObjectId;
 	
 	app.get('/entity/:id', getEntity);
 	app.post('/entity/:id/transacctions', getTransactions);
-	//app.post('/entity/:id/documents', getDocuments);
+	app.post('/entity/:id/documents', getDocuments);
+	app.get('/documents/get/:idDocument', get);
+	app.post('/mensajes', addMensajes);
 }
 
 function getEntity (req, res){
@@ -35,9 +41,10 @@ function getEntity (req, res){
 
 function getAllTransacctionValid (res, entity){
 
-   Transaction.find({"clientId" : entity.personalInfo._id, validation:true},{} ,{sort:{date:-1}}) 
+   Transaction.find({"clientId" : entity.personalInfo._id, validation:true},{} ,{sort:{date:1}}) 
    	.exec(function (err, docs) {
 		if (!err) {
+			debugger
 			entity.stats = docs;
 			res.setHeader('Content-Type', 'application/json');
 			res.send(JSON.stringify(entity));
@@ -65,6 +72,60 @@ function getTransactions (req, res){
 			}
 		});
 	});
+}
+
+function getDocuments (req, res) {
+	Documents.count({"clientId" : req.body.clientId}, function( err, count){
+	   Documents.find({"clientId" : req.body.clientId},{} ,{sort:{date:-1}, skip:req.body.init, limit: req.body.page }, 
+	   	function (err, docs) {
+			if (!err) {
+				var response = {};
+				response.total =count;
+				response.clients = docs;
+				res.setHeader('Content-Type', 'application/json');
+				res.send(JSON.stringify(response));
+				res.end();
+			} else {
+				res.status(500).send({ error: '[Error: Servers Mongo] Fallo recuperando datos.'});
+				res.end();
+			}
+		});
+	});
+}
+
+function get(req, res) {
+  	Documents.findOne({_id: ObjectId(req.params.idDocument)},function (err, doc) {
+		if (!err) {
+			res.setHeader('Content-Type', 'application/pdf');
+			res.type('pdf'); 
+			res.send(doc.file.data);
+		} else {
+			logger.log('error',err);
+			res.status(500).send({ error: '[Error: Servers Mongo] Fallo recuperando datos.'});
+			res.end();
+		}
+	});
+}
+
+function addMensajes (req, res){
+	var sv = new Mensajes({
+		gestorId: req.body.gestorId,
+	    clientId: req.body.clientId,
+	    date: new Date(), 
+	    asunto: req.body.gestorId,
+	    msg: req.body.clientId,
+	    estado:req.body.date  
+	});
+	
+	sv.save(function (err) {
+		if (!err) {
+			res.send(true);
+			res.end();
+		} else {
+			res.status(500).send({ error: '[Error: Servers Mongo] No se ha podido insertar.'});
+			res.end();
+		}
+	});	
 }
 
 exports.startPaths = StartPaths;
