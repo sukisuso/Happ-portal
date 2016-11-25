@@ -11,13 +11,15 @@ var Client = null;
 var Transaction = null;
 var Documents = null;
 var Mensajes = null;
+var Opciones = null;
 var ObjectId = null;
 
 function StartPaths(app, mongoose){
 	Client = require('../models/Client')(mongoose);
-	Transaction = require ('../models/Transactions')(mongoose);
-	Documents = require ('../models/Document')(mongoose);
-	Mensajes = require ('../models/Mensajes')(mongoose);
+	Transaction = require('../models/Transactions')(mongoose);
+	Documents = require('../models/Document')(mongoose);
+	Mensajes = require('../models/Mensajes')(mongoose);
+	Opciones = require('../models/Opciones')(mongoose);
 	ObjectId = mongoose.Types.ObjectId;
 	
 	app.get('/entity/:id', getEntity);
@@ -44,8 +46,19 @@ function getAllTransacctionValid (res, entity){
    Transaction.find({"clientId" : entity.personalInfo._id, validation:true},{} ,{sort:{date:1}}) 
    	.exec(function (err, docs) {
 		if (!err) {
-			debugger
 			entity.stats = docs;
+			getOptions (res, entity);
+		} else {
+			res.status(500).send({ error: '[Error: Servers Mongo] Fallo recuperando datos.'});
+		}
+	});
+}
+
+function getOptions (res, entity){
+	Opciones.findOne({"gestorId" : entity.personalInfo.gestorId}) 
+   	.exec(function (err, docs) {
+		if (!err) {
+			entity.options = docs;
 			res.setHeader('Content-Type', 'application/json');
 			res.send(JSON.stringify(entity));
 		} else {
@@ -53,7 +66,6 @@ function getAllTransacctionValid (res, entity){
 		}
 	});
 }
-
 
 function getTransactions (req, res){
 	Transaction.count({"clientId" : req.body.clientId, validation:true}, function( err, count){

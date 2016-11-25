@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/portal/{{entity}}/mensajes">
+                    <a ng-show="options.mensajes || false" href="/portal/{{entity}}/mensajes">
                         <i class="pe-7s-user"></i>
                         <p>Mensaje</p>
                     </a>
@@ -71,7 +71,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div  ng-show="options.info || false" class="col-md-4">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Información personal</h4>
@@ -146,7 +146,7 @@
                             </div>
                         </div>
 
-                    <div class="col-md-8">
+                    <div   class="col-md-8">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Economia temporal</h4>
@@ -162,7 +162,7 @@
 
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div ng-show="options.transacciones || false" class="col-md-12">
                         <div class="card ">
                             <div class="header">
                                 <h4 class="title">Transacciones</h4>
@@ -192,7 +192,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div ng-show="options.documentos || false" class="col-md-12">
                         <div class="card ">
                             <div class="header">
                                 <h4 class="title">Documentos</h4>

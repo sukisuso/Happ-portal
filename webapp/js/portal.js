@@ -26,6 +26,7 @@ app.controller("appController", function appController($scope, $location, $http,
 		})
 		.then(function(result) {
 			$scope.clientInfo = result.data.personalInfo;
+			loadOptions(result.data.options);
 			if(!msg){
 				loadStats(result.data.stats);
 				loadPagesTransacction();
@@ -127,6 +128,13 @@ app.controller("appController", function appController($scope, $location, $http,
 			$window.location.href = '/portal/'+$scope.entity;
 		});
  	};
+
+ 	function loadOptions (options) {
+ 		if(!options){
+ 			options = {};
+ 		}
+ 		$scope.options = options.portales;
+ 	}
 })
 
 
