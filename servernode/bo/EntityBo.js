@@ -124,8 +124,8 @@ function addMensajes (req, res){
 		gestorId: req.body.gestorId,
 	    clientId: req.body.clientId,
 	    date: new Date(), 
-	    asunto: req.body.gestorId,
-	    msg: req.body.clientId,
+	    asunto: req.body.asunto,
+	    msg: req.body.msg,
 	    estado:req.body.date  
 	});
 	
